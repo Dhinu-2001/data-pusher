@@ -4,7 +4,7 @@ db.sqlite3
 /static/ 
 media/ 
 .env 
-# pingpong_backend/.env
+data_pusher/.env
 
 # Visual Studio Code # 
 .vscode/* 
