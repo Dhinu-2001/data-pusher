@@ -15,13 +15,18 @@ class UserSerializer(serializers.ModelSerializer):
 class DestinationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Destination
-        fields = ['id', 'url', 'http_method']
+        fields = ['id', 'account', 'url', 'http_method', 'headers']
+    
+    def validate_headers(self, value):
+        if not isinstance(value, dict):
+            raise serializers.ValidationError("Headers must be a valid JSON object")
+        return value
         
 class AccountSerializer(serializers.ModelSerializer):
     destinations = DestinationSerializer(many=True, read_only=True)
     
     class Meta:
         model = Account
-        fields = ['id', 'name', 'email', 'destinations']
+        fields = ['id', 'name', 'email', 'website', 'destinations', 'app_secret_token', ]
         read_only_fields = ['app_secret_token']
         

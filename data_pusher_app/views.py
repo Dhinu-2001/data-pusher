@@ -44,16 +44,22 @@ class DestinationViewSet(viewsets.ModelViewSet):
 @permission_classes([IsAuthenticated])
 def incoming_data(request):
     token = request.headers.get('CL-X-TOKEN')
+    print('TOKEN', token)
     if not token:
         return Response({'error':'Un Authenticate'}, status= status.HTTP_401_UNAUTHORIZED)
     try:
         account = Account.objects.get(app_secret_token=token)
     except:
         return Response({'error':'Invalid token'}, status=status.HTTP_403_FORBIDDEN)
-    
+    print('ACCOUNT', account)
     data = request.data
+    print('DATA', data)
     for destination in account.destination_set.all():
-        headers = destination.headers
+        # headers = destination.headers
+        headers = {
+            "APP_ID" : str(account.account_id),
+            "APP_SECRET" : str(account.app_secret_token)
+        }
         if destination.http_method == "GET":
             response = requests.get(destination.url, params=data, headers=headers)
         else:
@@ -83,3 +89,15 @@ class CustomAuthToken(ObtainAuthToken):
         response = Response(response_data, status=status.HTTP_200_OK)
         print('response_data',response_data)
         return response
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def fetchDestinationOfAccount(request, account_id):
+    try:
+        print(account_id)
+        destinations_obj = Destination.objects.filter(account=account_id)
+        serializer = DestinationSerializer(destinations_obj, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response({'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)

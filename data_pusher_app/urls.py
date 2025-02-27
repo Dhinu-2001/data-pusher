@@ -12,4 +12,5 @@ urlpatterns = [
     path('server/incoming_data/', views.incoming_data),
     path('api-token-auth/', views.CustomAuthToken.as_view()),
     path('logout/', views.logout_user),
+    path('fetch_destination/<int:account_id>/', views.fetchDestinationOfAccount),
 ]
