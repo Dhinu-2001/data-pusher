@@ -55,7 +55,6 @@ def incoming_data(request):
     data = request.data
     print('DATA', data)
     for destination in account.destination_set.all():
-        # headers = destination.headers
         headers = {
             "APP_ID" : str(account.account_id),
             "APP_SECRET" : str(account.app_secret_token)
