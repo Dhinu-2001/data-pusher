@@ -11,7 +11,7 @@ A Django project deployed on AWS with PostgreSQL, Gunicorn, and Nginx.
 ## **1. Clone the Project**
 ```bash
 cd ~  # Move to home directory
-git clone https://github.com/YOUR_GITHUB_USERNAME/data-pusher.git
+git clone https://github.com/Dhinu-2001/data-pusher.git
 cd data-pusher
 ```
 
