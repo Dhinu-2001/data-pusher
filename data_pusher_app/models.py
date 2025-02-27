@@ -15,4 +15,4 @@ class Destination(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     url = models.URLField()
     http_method = models.CharField(max_length=10, choices=[('GET', 'GET'), ('POST', 'POST'), ('PUT', 'PUT')])
-    headers = models.JSONField()
+    headers = models.JSONField(default=dict, blank=True, null=True) 
